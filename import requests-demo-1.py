@@ -1,27 +1,36 @@
 import requests
 
-# Week 1: Basic Paper Discovery & Metadata Retrieval
-def get_paper_dna(paper_id):
+def get_paper_metadata(paper_id):
     """
-    Fetches the 'DNA' (metadata) of a research paper using Semantic Scholar API.
-    Input: DOI or Semantic Scholar ID
+    Function 1: Fetches raw JSON data from Semantic Scholar API.
+    Separated so you can debug API connection issues easily.
     """
-    # Using the Public API (No key required for basic testing)
     url = f"https://api.semanticscholar.org/graph/v1/paper/{paper_id}"
-    params = {'fields': 'title,abstract,url,citationCount,influentialCitationCount,recommendations'}
+    query_params = {'fields': 'title,abstract,url,citationCount,year'}
     
-    response = requests.get(url, params=params)
-    
-    if response.status_status == 200:
-        data = response.json()
-        print(f"--- WEEK 1: {data.get('title')} ---")
-        print(f"Citations: {data.get('citationCount')}")
-        print(f"Abstract Snippet: {data.get('abstract')[:150]}...")
-        return data
-    else:
-        print("Error fetching paper data. Check your ID.")
+    try:
+        response = requests.get(url, params=query_params, timeout=10)
+        response.raise_for_status() # This will catch 404 or 500 errors
+        return response.json()
+    except requests.exceptions.RequestException as e:
+        print(f"Connection Error: {e}")
         return None
 
-# Test with a sample paper DOI
-if __name__ == "__main__":
-    get_paper_dna("10.1145/3368089")
+def extract_abstract(data):
+    """
+    Function 2: Safely extracts only the abstract from the metadata.
+    Separated so you can debug missing data issues.
+    """
+    if data and 'abstract' in data:
+        return data['abstract']
+    print("Warning: Abstract not found in paper metadata.")
+    return ""
+
+# Test Section
+if _name_ == "_main_":
+    sample_id = "10.1145/3368089"
+    raw_data = get_paper_metadata(sample_id)
+    abstract = extract_abstract(raw_data)
+    
+    if abstract:
+        print(f"Successfully retrieved abstract for: {raw_data.get('title')}")
