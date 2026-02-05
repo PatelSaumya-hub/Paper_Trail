@@ -47,7 +47,7 @@ models/
 *.pth
 *.pkl
 
-# --- Vector Database (Local) ---
+# --- Vector Database (Local)
 # If you use ChromaDB locally, ignore its storage folder
 chroma/
 *.db
