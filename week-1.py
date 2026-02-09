@@ -1,3 +1,4 @@
+#import requests
 import requests
 
 def get_paper_metadata(paper_id):
