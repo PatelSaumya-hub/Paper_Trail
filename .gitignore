@@ -55,3 +55,24 @@ chroma/
 # --- IDEs ---
 .vscode/
 .idea/
+# Python bytecode
+__pycache__/
+*.py[cod]
+
+# Environments
+virtual.venv/
+venv/
+env/
+.env
+
+# Project Specific Data
+pubs_nips.pkl
+*.pkl
+
+# OS related
+.DS_Store
+Thumbs.db
+backend/virtual.venv/
+__pycache__/
+*.pkl
+.DS_Store
